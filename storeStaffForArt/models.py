@@ -1,6 +1,9 @@
 
-
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
 
 
 class productForArt(models.Model):
@@ -16,24 +19,33 @@ class productForArt(models.Model):
         verbose_name = u'товар'
         verbose_name_plural = u'товары'
 
+## вопрос поиска и связи таблиц товаров и их подвидов я решил реализовать через мультитэйб наследование
+## возникла проблема в поиске из родителя свойств доступных в дочерних моделях
+## это проблему я решил черех связь OneToOneField
+## по умолчанию это поле пустое, и в админке не отображается
+## для заполнения я использую сигнал @receiver(post_save, sender=albomForArt) с методом post_save
+## т.е. дествия происходят после сохранеия модели, я ее повторно вызываю и незначаю в OneToOneField родительскую модель
+## все дочернии модели я решил делать по данному образцу
+## уточнение создание дочерней модели создается на оснр=ове таблицы родительсой, и в род модели отображаются своства которые были унасл
 class albomForArt(productForArt):
-
-   product_for_art = models.OneToOneField(productForArt , on_delete=models.DO_NOTHING, related_name="albom",blank=True, null=True)
+   product_for_art = models.OneToOneField(productForArt , on_delete=models.DO_NOTHING, related_name="albom",blank=True, null=True,editable = False)
    numberOfPages = models.IntegerField(default=10,verbose_name="количество станиц" )
-   def __str__(self):
-       if str(self.product_for_art) == "None":
-           self.product_for_art = self.productforart_ptr
-           self.save()
-       return str(self.title)
-
    class Meta:
        verbose_name = u'альбомы и скечбуки'
        verbose_name_plural = u'альбомы и скечбуки'
+   def __str__(self):
+       return str(self.title)
+## перехват сигнала и перезаполнения занчения OneToOneField
+@receiver(post_save, sender=albomForArt)
+def calc_ac_total(sender, instance, **kwargs):
+    if str(instance.product_for_art) == "None":
+        instance.product_for_art = instance.productforart_ptr
+        instance.save()
 
 
 class paintForArt(productForArt):
-   product_for_art = models.OneToOneField(productForArt , on_delete=models.DO_NOTHING, related_name="paint",blank=True, null=True)
-   colors = models.IntegerField(default=10,verbose_name="количество станиц" )
+   product_for_art = models.OneToOneField(productForArt , on_delete=models.DO_NOTHING, related_name="paint",blank=True, null=True,editable = False)
+   colors = models.IntegerField(default=10,verbose_name="просто поле, что докопался то?" )
    volumePaint = models.IntegerField(default=250 )
    TYPES_OF_PAINT =[
        ('oil_paint', 'масляная'),
@@ -48,12 +60,25 @@ class paintForArt(productForArt):
        verbose_name = u'краски'
        verbose_name_plural = u'краски'
    def __str__(self):
-       if str(self.product_for_art) == "None":
-           self.product_for_art = self.productforart_ptr
-           self.save()
        return str(self.title)
+@receiver(post_save, sender=paintForArt)
+def calc_ac_total(sender, instance, **kwargs):
+    if str(instance.product_for_art) == "None":
+        instance.product_for_art = instance.productforart_ptr
+        instance.save()
 
 
+class albomForArt(productForArt):
+   product_for_art = models.OneToOneField(productForArt , on_delete=models.DO_NOTHING, related_name="albom",blank=True, null=True,editable = False)
+   numberOfPages = models.IntegerField(default=10,verbose_name="количество станиц" )
+   class Meta:
+       verbose_name = u'альбомы и скечбуки'
+       verbose_name_plural = u'альбомы и скечбуки'
+@receiver(post_save, sender=albomForArt)
+def calc_ac_total(sender, instance, **kwargs):
+    if str(instance.product_for_art) == "None":
+        instance.product_for_art = instance.productforart_ptr
+        instance.save()
 
 class typeProductForArt(models.Model):
     class Meta:
