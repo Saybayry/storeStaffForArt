@@ -1,15 +1,16 @@
+@import url(https://allfont.ru/allfont.css?fonts=disneypark);
 .productForArtStartpage {
-    height: 40vw;
-    width: 30vw;
-    box-shadow: 3px 6px 8px 0px #002f497a;
+    height: 30vw;
+    width: 25vw;
+    box-shadow: 0px 17px 32px 8px rgba(40, 86, 122, 0.2);
     border-radius: 8px;
     display:inline-block;
     text-align: center;
-    max-width: 260px;
-    max-height: 300px;
+    max-width: 300px;
+    max-height: 450px;
     vertical-align: top;
     overflow: hidden;
-    background-size: 500px 400px;
+    background-size: 550px 450px;
     background-position: center;
     color: #003049
 }
@@ -22,18 +23,20 @@
     margin-left: 10px;
 }
 .productsStartpage{
+    margin-left: 4vw;
+    margin-right: 4vw;
     margin-bottom: 30px;
     vertical-align: top;
 }
 body{
-    background-color: #eae2b7
+    
 }
 .headerStartpage{
-    box-shadow: 9px 27px 8px 0px #d628284e;
-    min-height: 70px;
+    box-shadow: 0px 17px 13px 0px rgba(99, 142, 174, 0.2);
+    min-height: 90px;
     margin-bottom: 80px;
-    background-color: #003049;
-    color: #f77f00;
+    background-color: #e1e9ed86;
+
 }
 
 .pageinwork{
@@ -45,4 +48,20 @@ body{
     margin-top: 300;
     background-color: #003049;
     color: #eae2b7;
+}
+.headerlist{
+    font-family: 'Lobster', arial;
+    color: #003049;
+    text-decoration:none;
+    font-size: 3vw;
+    background-color: #ffffff;
+    border-radius:  5px;
+    margin-left: 40px;
+    box-shadow: 0px 28px 50px -19px rgba(40, 86, 122, 0.18);   
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.headerlist:hover{
+    box-shadow: 0px 28px 50px 25px rgba(40, 86, 122, 0.26);
+
 }

@@ -6,7 +6,7 @@
 
 </head>
 <body>
-    <header class="headerStartpage"> <span>товары для творчества</span> <a href="{% url 'storeStaffForArt:pageInwork'  %}">корзина</a> <a href="{% url 'storeStaffForArt:pageInwork'  %}">войти</a> </header>
+    <header class="headerStartpage"> <a class="headerlist"> товары для творчества </a> <a class="headerlist" href="{% url 'storeStaffForArt:startpage'  %}"> все товары</a>  <a class="headerlist" href="{% url 'storeStaffForArt:pageInwork'  %}">корзина</a> <a class="headerlist" href="{% url 'storeStaffForArt:pageInwork'  %}">    войти</a> </header>
     {% if productForArt_list %}
     <section class="productsStartpage">
     {% for productForArt in object_list %}
